@@ -196,7 +196,7 @@ public final class MySQL {
 	}
 	
     /// Connects to a MySQL server
-	public func connect(host hst: String? = nil, user: String? = nil, password: String? = nil, db: String? = nil, port: UInt32 = 0, socket: String? = nil, flag: UInt = 0) -> Bool {
+    public func connect(host hst: String? = nil, user: String? = nil, password: String? = nil, db: String? = nil, port: UInt32 = 0, socket: String? = nil, flag: UInt = 0, encoding: String = "utf8mb4") -> Bool {
 		if self.ptr == nil {
 			self.ptr = mysql_init(nil)
 		}
@@ -216,6 +216,7 @@ public final class MySQL {
 		}
 		
 		let check = mysql_real_connect(self.ptr!, hostOrBlank.0!, userOrBlank.0!, passwordOrBlank.0!, dbOrBlank.0!, port, socketOrBlank.0!, flag)
+        mysql_set_character_set(self.ptr!, encoding)
 		return check != nil && check == self.ptr
 	}
 	
